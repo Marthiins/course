@@ -42,14 +42,22 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);// converter milesegundos para dia usar variavel
 	}
 
-	public void updateDates(Date checkIn, Date checkOut) {
+	public String updateDates(Date checkIn, Date checkOut) {
+		Date now = new Date();
+		if (checkIn.before(now) || checkOut.before(now)) {// se a data de check-in e checkout for antes que agoranão aceitar
+			return "Reservation dates for update must be future dates ";
+		}
+		if (!checkOut.after(checkIn)) {
+			return "Check-out date must be after check-in date";
+		}
 		this.checkIn = checkIn;// fazer checkIn do meu objeto receber o checkIn do meu do argumento do metodo
 		this.checkOut = checkOut;
+		return null;
 	}
 
 	@Override
 	public String toString() {
-		return "Room" 
+		return "Room " 
 	+ roomNumber 
 	+ ", check-in: " 
 	+ sdf.format(checkIn) 
